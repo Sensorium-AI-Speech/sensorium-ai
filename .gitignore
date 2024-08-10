@@ -1,1 +1,6 @@
 .venv/**
+
+torbi/**
+penn/**
+promonet/**
+torchutil/**
