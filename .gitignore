@@ -1,6 +1,9 @@
 .venv/**
+__pycache__/**
 
 torbi/**
 penn/**
 promonet/**
 torchutil/**
+cache/**
+data/**
