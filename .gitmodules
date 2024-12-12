@@ -1,0 +1,11 @@
+[submodule "torbi"]
+	path = torbi
+	url = https://github.com/maxrmorrison/torbi.git
+[submodule "penn"]
+	path = penn
+	url = https://github.com/interactiveaudiolab/penn.git
+	branch = dev
+[submodule "promonet"]
+	path = promonet
+	url = https://github.com/maxrmorrison/promonet.git
+	branch = dev
