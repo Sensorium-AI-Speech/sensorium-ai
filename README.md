@@ -1,5 +1,43 @@
 # Sensorium-AI Dev
 
+## Setting up with this repo
+1. Create and activate a Python 3.10 environment (using `conda` or `venv` is fine) (i.e. `conda create --name sensorium_1 python=3.10`)
+2. Run `pip install --upgrade "pip<24.1" && pip install "setuptools>=61.0,<70"`
+    - This is to mitigate `FileNotFoundError: [Errno 2] No such file or directory: 'fairseq/version.txt` when installing promonet.
+2. Clone this repo.
+3. Run `git submodule update --init --recursive`
+4. Within `./torbi/pyproject.toml`, change the lines with torch dependencies to have no version specifier (i.e. change `torch==2.3.1` to just `torch`)
+5. Install `torbi` (`cd ./torbi && pip install . && cd ..`)
+6. Install dev branch of `penn` (`pip install ./penn`)
+7. Install dev branch of `promonet` (`pip install ./promonet`)
+    - You can sanity check by running `python -c "import promonet; help(promonet)"` and seeing if under `PACKAGE CONTENTS` you see `adapt`,`baseline`, ..., `train`.
+8. Download `*.pt` and `*.ts` for a model.
+    - i.e. `fargan-zeroshot-causal-weighted-incpitch-singing-600k.pt` and `fargan-zeroshot-causal-weighted-incpitch-singing-600k.ts`
+9. Extracting speech features. Run the following (check below for config file and weight file pairs):
+
+```
+python -m promonet.data.pack --config <config_file.py> --audio_file <audio_file> --output_file <output_csv> --checkpoint <weight_file.pt> [--gpu 0]
+```
+
+For example:
+
+```
+python -m promonet.data.pack --config configs/fargan-zeroshot-shuffle-warmup50-weight1en1-fdisc-fm-pitch\(50\,1050\)-incpitch.py --audio_file ../sensorium_max_objects/test_files/wav/test.wav --output_file ./test.csv --checkpoint /mnt/d/_doctorate/model/fargan-zeroshot-causal-weighted-incpitch-singing-600k.pt --gpu 0
+```
+
+## Config-Weight File Pairs
+Under `./configs` are some of the configs we used for training/inference that you'll need to supply for feature extraction (i.e. `python -m promonet.data.pack`)
+
+| Weight File | Config File |
+|-------|-------|
+|`fargan-zeroshot-causal-weighted-incpitch-singing-600k.pt` | `configs/fargan-zeroshot-shuffle-warmup50-weight1en1-fdisc-fm-pitch\(50\,1050\)-incpitch.py` |
+
+
+
+## Setting up in general
+
+
+
 ## Windows Setup
 I personally use Windows Subspace for Linux (WSL-2) for development. Assuming that you've setup WSL and CUDA for WSL correctly (https://docs.nvidia.com/cuda/wsl-user-guide/index.html#cuda-support-for-wsl-2), I setup my developement environment by doing the following:
 
@@ -33,5 +71,3 @@ I personally use Windows Subspace for Linux (WSL-2) for development. Assuming th
     5. sudo cp /var/cuda-repo-wsl-ubuntu-12-6-local/cuda-*-keyring.gpg /usr/share/keyrings/
     6. sudo apt-get update
     7. sudo apt-get -y install cuda-toolkit-12-6
-
-### 
